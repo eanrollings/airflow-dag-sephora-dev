@@ -26,7 +26,7 @@ with models.DAG(
         sql="""
         CREATE TABLE `digitas-sephora.Test_Data.airflow_example` AS SELECT 0 AS Test_1, 1 AS Test_2
         """,
-        gcp_conn_id="sephora_bigquery_connection",
+        gcp_conn_id="plural",
         use_legacy_sql=False,
 )
 
