@@ -1,5 +1,6 @@
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
 from airflow import models
+import datetime
 
 default_dag_args = {
     # The start_date describes when a DAG is valid / can be run. Set this to a
