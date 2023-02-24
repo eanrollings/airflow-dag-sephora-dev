@@ -1,13 +1,52 @@
-from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
-from airflow import models
 import datetime
 
+# [START composer_notify_failure]
+from airflow import models
+
+# [END composer_notify_failure]
+# [START composer_bash_bq]
+from airflow.operators import bash
+
+# [END composer_bash_bq]
+# [START composer_email]
+from airflow.operators import email
+
+# [END composer_email]
+# [START composer_bigquery]
+from airflow.providers.google.cloud.operators import bigquery
+from airflow.providers.google.cloud.transfers import bigquery_to_gcs
+
+# [END composer_bigquery]
+from airflow.utils import trigger_rule
+
+bq_dataset_name = "airflow_bq_notify_dataset_{{ ds_nodash }}"
+bq_recent_questions_table_id = "recent_questions"
+bq_most_popular_table_id = "most_popular"
+gcs_bucket = "{{var.value.gcs_bucket}}"
+output_file = f"{gcs_bucket}/recent_questions.csv"
+location = "US"
+project_id = "{{var.value.gcp_project}}"
+
+max_query_date = "2023-02-02"
+min_query_date = "2023-02-01"
+yesterday = datetime.datetime.combine(
+    datetime.datetime.today() - datetime.timedelta(1), datetime.datetime.min.time()
+)
+
+POPULAR_QUERY = f"""
+        CREATE TABLE `digitas-sephora.Test_Data.airflow_example` AS SELECT 0 AS Test_1, 1 AS Test_2
+        """
+
+# [START composer_notify_failure]
 default_dag_args = {
-    # The start_date describes when a DAG is valid / can be run. Set this to a
-    # fixed point in time rather than dynamically, since it is evaluated every
-    # time a DAG is parsed. See:
-    # https://airflow.apache.org/faq.html#what-s-the-deal-with-start-date
+    "start_date": yesterday,
+    # Email whenever an Operator in the DAG fails.
+    # "email": "{{var.value.email}}",
+    # "email_on_failure": True,
+    # "email_on_retry": False,
     "retries": 2,
+    "retry_delay": datetime.timedelta(minutes=1),
+    "project_id": digitas-sephora,
 }
 
 # Define a DAG (directed acyclic graph) of tasks.
@@ -21,13 +60,20 @@ with models.DAG(
         catchup=False,
         default_args=default_dag_args) as dag:
 
-    table_creation = BigQueryExecuteQueryOperator(
-        task_id="make a table in bigquery",
-        sql="""
-        CREATE TABLE `digitas-sephora.Test_Data.airflow_example` AS SELECT 0 AS Test_1, 1 AS Test_2
-        """,
-        gcp_conn_id="plural",
-        use_legacy_sql=False,
-)
+    bq_most_popular_query = bigquery.BigQueryInsertJobOperator(
+        task_id="bq_most_popular_question_query",
+        configuration={
+            "query": {
+                "query": POPULAR_QUERY,
+                "useLegacySql": False,
+                "destinationTable": {
+                    "projectId": digitas-sephora,
+                    "datasetId": Test_Data,
+                    "tableId": bq_most_popular_table_id,
+                },
+            }
+        },
+        location=location,
+    )
 
-table_creation
+bq_most_popular_query
