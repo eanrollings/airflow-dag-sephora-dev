@@ -53,8 +53,8 @@ default_dag_args = {
 # Any task you create within the context manager is automatically added to the
 # DAG object.
 with models.DAG(
-        'is this needed',
-        description="?",
+        'is_this_needed',
+        description="something or another",
         schedule_interval="@daily",
         start_date=datetime.datetime(2023, 1, 1),
         catchup=False,
