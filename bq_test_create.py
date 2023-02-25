@@ -36,7 +36,7 @@ yesterday = datetime.datetime.combine(
 )
 
 POPULAR_QUERY = f"""
-        CREATE TABLE `digitas-sephora.Test_Data.airflow_example` AS SELECT 0 AS Test_1, 1 AS Test_2
+        SELECT 0 AS Test_1, 1 AS Test_2
         """
 
 # [START composer_notify_failure]
