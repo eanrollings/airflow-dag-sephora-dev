@@ -20,8 +20,7 @@ from airflow.providers.google.cloud.transfers import bigquery_to_gcs
 from airflow.utils import trigger_rule
 import google.auth
 
-_, project_id = google.auth.default()
-print(project_id)
+project_id = google.auth.default()
 bq_dataset_name = "Test_Data"
 bq_recent_questions_table_id = "recent_questions"
 bq_most_popular_table_id = "most_popular"
