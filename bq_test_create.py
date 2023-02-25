@@ -20,7 +20,7 @@ from airflow.providers.google.cloud.transfers import bigquery_to_gcs
 from airflow.utils import trigger_rule
 import google.auth
 
-project_id = google.auth.default()
+project_id = 'digitas-sephora'
 bq_dataset_name = "Test_Data"
 bq_recent_questions_table_id = "recent_questions"
 bq_most_popular_table_id = "most_popular"
