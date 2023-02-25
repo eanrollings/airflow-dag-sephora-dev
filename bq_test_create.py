@@ -19,7 +19,7 @@ from airflow.providers.google.cloud.transfers import bigquery_to_gcs
 # [END composer_bigquery]
 from airflow.utils import trigger_rule
 
-bq_dataset_name = "airflow_bq_notify_dataset_{{ ds_nodash }}"
+bq_dataset_name = "Test_Data"
 bq_recent_questions_table_id = "recent_questions"
 bq_most_popular_table_id = "most_popular"
 gcs_bucket = "{{var.value.gcs_bucket}}"
@@ -46,7 +46,7 @@ default_dag_args = {
     # "email_on_retry": False,
     "retries": 2,
     "retry_delay": datetime.timedelta(minutes=1),
-    "project_id": digitas-sephora,
+    "project_id": project_id,
 }
 
 # Define a DAG (directed acyclic graph) of tasks.
@@ -67,8 +67,8 @@ with models.DAG(
                 "query": POPULAR_QUERY,
                 "useLegacySql": False,
                 "destinationTable": {
-                    "projectId": digitas-sephora,
-                    "datasetId": Test_Data,
+                    "projectId": project_id,
+                    "datasetId": bq_dataset_name,
                     "tableId": bq_most_popular_table_id,
                 },
             }
