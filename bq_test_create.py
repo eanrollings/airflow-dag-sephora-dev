@@ -25,12 +25,12 @@ bq_dataset_name = "Test_Data"
 bq_recent_questions_table_id = "recent_questions"
 bq_most_popular_table_id = "most_popular"
 gcs_bucket = "{{var.value.gcs_bucket}}"
-output_file = f"{gcs_bucket}/recent_questions.csv"
+#output_file = f"{gcs_bucket}/recent_questions.csv"
 location = "US"
 #project_id = "{{var.value.gcp_project}}"
 
-max_query_date = "2023-02-02"
-min_query_date = "2023-02-01"
+#max_query_date = "2023-02-02"
+#min_query_date = "2023-02-01"
 yesterday = datetime.datetime.combine(
     datetime.datetime.today() - datetime.timedelta(1), datetime.datetime.min.time()
 )
