@@ -18,14 +18,17 @@ from airflow.providers.google.cloud.transfers import bigquery_to_gcs
 
 # [END composer_bigquery]
 from airflow.utils import trigger_rule
+import google.auth
 
+_, project_id = google.auth.default()
+print(project_id)
 bq_dataset_name = "Test_Data"
 bq_recent_questions_table_id = "recent_questions"
 bq_most_popular_table_id = "most_popular"
 gcs_bucket = "{{var.value.gcs_bucket}}"
 output_file = f"{gcs_bucket}/recent_questions.csv"
 location = "US"
-project_id = "{{var.value.gcp_project}}"
+#project_id = "{{var.value.gcp_project}}"
 
 max_query_date = "2023-02-02"
 min_query_date = "2023-02-01"
