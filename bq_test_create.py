@@ -62,6 +62,7 @@ with models.DAG(
 
     bq_most_popular_query = bigquery.BigQueryInsertJobOperator(
         task_id="bq_most_popular_question_query",
+        gcp_conn_id='sephora_bigquery_connection',
         configuration={
             "query": {
                 "query": POPULAR_QUERY,
