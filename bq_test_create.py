@@ -35,7 +35,7 @@ yesterday = datetime.datetime.combine(
 )
 
 POPULAR_QUERY = f"""
-        CREATE OR REPLACE TABLE `digitas-sephora.Test_Data.most_popular`
+        CREATE OR REPLACE TABLE `digitas-sephora.Test_Data.most_popular` AS
         SELECT 0 AS Test_1, 1 AS Test_2
         """
 
