@@ -55,7 +55,7 @@ default_dag_args = {
 # Any task you create within the context manager is automatically added to the
 # DAG object.
 with models.DAG(
-        'Table Creation Query',
+        'Table_Creation_Query',
         description="something or another",
         schedule_interval="@daily",
         start_date=datetime.datetime(2023, 1, 1),
